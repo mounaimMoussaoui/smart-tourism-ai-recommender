@@ -19,3 +19,13 @@ export async function getMetadata() {
   const response = await axios.get(`${AI_URL}/metadata`);
   return response.data;
 }
+
+export async function getPreferenceRecommendations(data: any) {
+  const response = await axios.post(`${AI_URL}/recommend/preferences`, data, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  return response.data;
+}

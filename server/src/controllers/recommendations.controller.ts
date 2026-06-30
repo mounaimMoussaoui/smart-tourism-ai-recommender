@@ -1,6 +1,20 @@
-import Request from "express";
-import Response from "express";
-import { getRecommendations, getMetadata } from "../services/ai.service.js";
+import {
+  getRecommendations,
+  getMetadata,
+  getPreferenceRecommendations,
+} from "../services/ai.service.js";
+
+export async function recommendByPreferences(req: Request, res: Response) {
+  try {
+    const recommendations = await getPreferenceRecommendations(req.body);
+    return res.json(recommendations);
+  } catch (error: any) {
+    return res.status(500).json({
+      message: "Preference recommendation failed",
+      error: error.response?.data || error.message,
+    });
+  }
+}
 
 export async function recommend(req: Request, res: Response) {
   try {
