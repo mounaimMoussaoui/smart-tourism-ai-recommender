@@ -1,30 +1,42 @@
 import { useState } from "react";
-import { getRecommendations } from "../services/recommendationApi";
+// import { getRecommendations } from "../services/recommendationApi";
+import { getPreferenceRecommendations } from "../services/recommendationApi";
 
 export function Recommend() {
-  const [age, setAge] = useState(30);
-  const [category, setCategory] = useState("Taman Hiburan");
-  const [city, setCity] = useState("Jakarta");
-  const [result, setResult] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
+    const [age, setAge] = useState(30);
+    const [category, setCategory] = useState("Taman Hiburan");
+    const [city, setCity] = useState("Jakarta");
+    const [result, setResult] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
+    const [budget, setBudget] = useState("medium");
+    const [nature, setNature] = useState(5);
+    const [culture, setCulture] = useState(2);
+    const [adventure, setAdventure] = useState(3);
+    const [shopping, setShopping] = useState(1);
+    const [relaxation, setRelaxation] = useState(4);
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
+  e.preventDefault();
+  setLoading(true);
 
-    try {
-      const data = await getRecommendations({
-        age,
-        category,
-        city,
-        top_n: 5,
-      });
+  try {
+    const data = await getPreferenceRecommendations({
+      age,
+      city,
+      budget,
+      nature,
+      culture,
+      adventure,
+      shopping,
+      relaxation,
+      top_n: 5,
+    });
 
-      setResult(data);
-    } finally {
-      setLoading(false);
-    }
+    setResult(data);
+  } finally {
+    setLoading(false);
   }
+}
 
   return (
     <main style={{ padding: 40, maxWidth: 900, margin: "0 auto" }}>
@@ -54,6 +66,30 @@ export function Recommend() {
           <option value="Semarang">Semarang</option>
           <option value="Surabaya">Surabaya</option>
         </select>
+
+        {/* <p>Preferences:</p> */}
+
+        <select value={budget} onChange={(e) => setBudget(e.target.value)}>
+        <option value="low">Low Budget</option>
+        <option value="medium">Medium Budget</option>
+        <option value="high">High Budget</option>
+        </select>
+
+        <label>Nature: {nature}</label>
+        <input type="range" min="1" max="5" value={nature} onChange={(e) => setNature(Number(e.target.value))} />
+
+        <label>Culture: {culture}</label>
+        <input type="range" min="1" max="5" value={culture} onChange={(e) => setCulture(Number(e.target.value))} />
+
+        <label>Adventure: {adventure}</label>
+        <input type="range" min="1" max="5" value={adventure} onChange={(e) => setAdventure(Number(e.target.value))} />
+
+        <label>Shopping: {shopping}</label>
+        <input type="range" min="1" max="5" value={shopping} onChange={(e) => setShopping(Number(e.target.value))} />
+
+        <label>Relaxation: {relaxation}</label>
+        <input type="range" min="1" max="5" value={relaxation} onChange={(e) => setRelaxation(Number(e.target.value))} />
+
 
         <button type="submit">
           {loading ? "Generating..." : "Get Recommendations"}
