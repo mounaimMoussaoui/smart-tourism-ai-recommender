@@ -1,9 +1,14 @@
+# Node
 node_modules/
+dist/
 .env
+
+# Python
+.venv/
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
-.DS_Store
 
-ai-service/data/raw/
-ai-service/data/processed/
+# OS
+.DS_Store
+Thumbs.db
