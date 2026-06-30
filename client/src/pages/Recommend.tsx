@@ -58,6 +58,8 @@ export function Recommend() {
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
+  const fieldClass = "w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-4 text-white shadow-inner outline-none transition hover:border-emerald-400/40 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-400/10";
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -109,12 +111,12 @@ export function Recommend() {
             </p>
           </div>
 
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl backdrop-blur-xl">
+          {/* <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl backdrop-blur-xl">
             <p className="text-sm text-slate-400">Current pipeline</p>
             <p className="mt-1 font-semibold text-white">
               React → Express → FastAPI → ML Model
             </p>
-          </div>
+          </div> */}
         </motion.header>
 
         <div className="grid gap-8 lg:grid-cols-[430px_1fr]">
@@ -142,14 +144,16 @@ export function Recommend() {
                 type="number"
                 value={age}
                 onChange={(e) => setAge(Number(e.target.value))}
-                className="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 outline-none transition focus:border-emerald-400"
+                className={fieldClass}
+                // "w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 outline-none transition focus:border-emerald-400"
                 placeholder="Age"
               />
 
               <select
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 outline-none transition focus:border-emerald-400"
+                className={fieldClass}
+                // "w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 outline-none transition focus:border-emerald-400"
               >
                 {cities.map((item) => (
                   <option key={item} value={item}>
@@ -161,7 +165,8 @@ export function Recommend() {
               <select
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
-                className="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 outline-none transition focus:border-emerald-400"
+                className={fieldClass}
+                // "w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 outline-none transition focus:border-emerald-400"
               >
                 {budgets.map((item) => (
                   <option key={item} value={item}>
@@ -207,10 +212,9 @@ export function Recommend() {
                   <div className="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-3xl bg-sky-400/20 text-sky-300">
                     <Sparkles />
                   </div>
-                  <h3 className="text-2xl font-bold">Ready for AI results</h3>
+                  <h3 className="text-2xl font-bold">Your personalized recommendations will appear here</h3>
                   <p className="mt-2 max-w-md text-slate-400">
-                    Submit your profile and the system will rank destinations
-                    using the trained recommendation model.
+                    Adjust your travel profile and generate AI-ranked places that match your preferences.
                   </p>
                 </div>
               </motion.div>
