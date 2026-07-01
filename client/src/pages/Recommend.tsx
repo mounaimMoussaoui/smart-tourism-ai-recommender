@@ -8,6 +8,11 @@ import {
   Loader2,
   Compass,
   SlidersHorizontal,
+  Trees,
+  Landmark,
+  FerrisWheel,
+  ShoppingBag,
+  Waves,
 } from "lucide-react";
 import { getPreferenceRecommendations } from "../services/recommendationApi";
 
@@ -18,14 +23,29 @@ function RangeField({
   label,
   value,
   onChange,
+  icon,
+  isDark,
 }: {
   label: string;
   value: number;
+  icon: React.ReactNode;
+  isDark: boolean;
   onChange: (value: number) => void;
 }) {
   return (
-    <div className="space-y-2 rounded-2xl bg-white/5 p-4 border border-white/10">
-      <div className="flex items-center justify-between">
+    <div className={`space-y-3 rounded-2xl p-4 border ${
+        isDark ? "bg-white/5 border-white/10" : "bg-slate-50 border-slate-200"
+        }`}>
+        <div className="flex items-center justify-between">
+            <span className={`flex items-center gap-2 text-sm ${
+            isDark ? "text-slate-300" : "text-slate-700"
+            }`}>
+      {icon}
+      {label}
+    </span>
+
+    {/* <div className="space-y-2 rounded-2xl bg-white/5 p-4 border border-white/10"> */}
+      {/* <div className="flex items-center justify-between"> */}
         <span className="text-sm text-slate-300">{label}</span>
         <span className="rounded-full bg-emerald-400/20 px-3 py-1 text-xs font-bold text-emerald-300">
           {value}/5
@@ -58,7 +78,21 @@ export function Recommend() {
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-  const fieldClass = "w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-4 text-white shadow-inner outline-none transition hover:border-emerald-400/40 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-400/10";
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  const isDark = theme === "dark";
+
+const cardClass = isDark
+? "border-white/10 bg-white/10 text-white"
+: "border-slate-200 bg-white text-slate-950 shadow-xl shadow-slate-200/70";
+
+const fieldClass = isDark
+? "w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-4 text-white outline-none transition focus:border-emerald-400"
+: "w-full rounded-2xl border border-slate-200 bg-slate-100 px-4 py-4 text-slate-950 outline-none transition focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10";
+
+// const mutedText = isDark ? "text-slate-400" : "text-slate-500";
+
+//   const fieldClass = "w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-4 text-white shadow-inner outline-none transition hover:border-emerald-400/40 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-400/10";
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -84,7 +118,14 @@ export function Recommend() {
   }
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#020617] text-white">
+    // <main className="min-h-screen overflow-hidden bg-[#020617] text-white">
+    <main
+        className={`min-h-screen overflow-hidden transition-colors ${
+            theme === "dark"
+            ? "bg-[#020617] text-white"
+            : "bg-slate-50 text-slate-950"
+        }`}
+        >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.25),transparent_35%),radial-gradient(circle_at_top_right,rgba(56,189,248,0.18),transparent_30%)]" />
 
       <section className="relative mx-auto max-w-7xl px-6 py-10">
@@ -94,6 +135,17 @@ export function Recommend() {
           transition={{ duration: 0.6 }}
           className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between"
         >
+            <button
+                type="button"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className={`rounded-full px-4 py-2 text-sm font-bold transition ${
+                    theme === "dark"
+                    ? "bg-white/10 text-white hover:bg-white/20"
+                    : "bg-slate-900 text-white hover:bg-slate-700"
+                }`}
+            >
+                {theme === "dark" ? "Light Mode" : "Dark Mode"}
+            </button>
           <div>
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 text-sm text-emerald-300">
               <Sparkles size={16} />
@@ -125,7 +177,8 @@ export function Recommend() {
             initial={{ opacity: 0, x: -25 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.55 }}
-            className="rounded-[2rem] border border-white/10 bg-white/10 p-6 shadow-2xl backdrop-blur-xl"
+            // className="rounded-[2rem] border border-white/10 bg-white/10 p-6 shadow-2xl backdrop-blur-xl"
+            className={`rounded-[2rem] border p-6 backdrop-blur-xl ${cardClass}`}
           >
             <div className="mb-6 flex items-center gap-3">
               <div className="grid h-12 w-12 place-items-center rounded-2xl bg-emerald-400 text-slate-950">
@@ -175,11 +228,17 @@ export function Recommend() {
                 ))}
               </select>
 
-              <RangeField label="Nature" value={nature} onChange={setNature} />
+              {/* <RangeField label="Nature" value={nature} onChange={setNature} />
               <RangeField label="Culture" value={culture} onChange={setCulture} />
               <RangeField label="Adventure" value={adventure} onChange={setAdventure} />
               <RangeField label="Shopping" value={shopping} onChange={setShopping} />
-              <RangeField label="Relaxation" value={relaxation} onChange={setRelaxation} />
+              <RangeField label="Relaxation" value={relaxation} onChange={setRelaxation} /> */}
+
+            <RangeField label="Nature" value={nature} onChange={setNature} icon={<Trees size={16} />} isDark={isDark} />
+            <RangeField label="Culture" value={culture} onChange={setCulture} icon={<Landmark size={16} />} isDark={isDark} />
+            <RangeField label="Adventure" value={adventure} onChange={setAdventure} icon={<FerrisWheel size={16} />} isDark={isDark} />
+            <RangeField label="Shopping" value={shopping} onChange={setShopping} icon={<ShoppingBag size={16} />} isDark={isDark} />
+            <RangeField label="Relaxation" value={relaxation} onChange={setRelaxation} icon={<Waves size={16} />} isDark={isDark} />
 
               <button
                 type="submit"
@@ -235,7 +294,12 @@ export function Recommend() {
                     initial={{ opacity: 0, y: 24 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.35, delay: index * 0.06 }}
-                    className="group rounded-[2rem] border border-white/10 bg-white/10 p-5 shadow-xl backdrop-blur-xl transition hover:-translate-y-1 hover:bg-white/15"
+                    className={`group rounded-[2rem] border p-5 transition hover:-translate-y-1 ${
+                                isDark
+                                    ? "border-white/10 bg-white/10 shadow-xl backdrop-blur-xl hover:bg-white/15"
+                                    : "border-slate-200 bg-white shadow-xl shadow-slate-200/80 hover:shadow-2xl"
+                                }`}
+                    // "group rounded-[2rem] border border-white/10 bg-white/10 p-5 shadow-xl backdrop-blur-xl transition hover:-translate-y-1 hover:bg-white/15"
                   >
                     <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
                       <div>
